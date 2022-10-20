@@ -17,20 +17,20 @@ int laba5()
 
 	double x, y, z, a;
 	
-	printf("Контрольный пример\n\nx=0.03981\ny=-1625\nz=0.512\n\na=0,991957\n\n");
+	printf("ГЉГ®Г­ГІГ°Г®Г«ГјГ­Г»Г© ГЇГ°ГЁГ¬ГҐГ°\n\nx=0.03981\ny=-1625\nz=0.512\n\na=0,991957\n\n");
 
-	printf("Введите x\n");
+	printf("Г‚ГўГҐГ¤ГЁГІГҐ x\n");
 	scanf("%lf", &x);
 
-	printf("Введите y\n");
+	printf("Г‚ГўГҐГ¤ГЁГІГҐ y\n");
 	scanf("%lf", &y);
 
-	printf("Введите z\n");
+	printf("Г‚ГўГҐГ¤ГЁГІГҐ z\n");
 	scanf("%lf", &z);
 
 	a = pow(2, -x) * (sqrt(x + pow(fabs(y), 1 / 4))) * pow(pow(e, x - 1 / sin(z)), 1 / 3);
 
-	printf("Ответ   %lf\n\n", a);
+	printf("ГЋГІГўГҐГІ   %lf\n\n", a);
 }
 int laba6()
 {
@@ -38,17 +38,17 @@ int laba6()
 
 	int x, y;
 
-	printf("Контрольный пример:\nx=3   y=5\nПринадлежит\n\nx=1   y=2\nНе принадлежит\n\n");
+	printf("ГЉГ®Г­ГІГ°Г®Г«ГјГ­Г»Г© ГЇГ°ГЁГ¬ГҐГ°:\nx=3   y=5\nГЏГ°ГЁГ­Г Г¤Г«ГҐГ¦ГЁГІ\n\nx=1   y=2\nГЌГҐ ГЇГ°ГЁГ­Г Г¤Г«ГҐГ¦ГЁГІ\n\n");
 
-	printf("Введите х\n");
+	printf("Г‚ГўГҐГ¤ГЁГІГҐ Гµ\n");
 	scanf("%d", &x);
 
-	printf("Введите у\n");
+	printf("Г‚ГўГҐГ¤ГЁГІГҐ Гі\n");
 	scanf("%d", &y);
 
 
-	if (x >= 1 && x <= 7 && y <= 7 && y >= 1 && y <= x + 3 && y <= (-x) + 11 && y >= x - 3 && y >= -x + 5)printf("Принадлежит\n");
-	else printf("Не принадлежит\n\n");
+	if (x >= 1 && x <= 7 && y <= 7 && y >= 1 && y <= x + 3 && y <= (-x) + 11 && y >= x - 3 && y >= -x + 5)printf("ГЏГ°ГЁГ­Г Г¤Г«ГҐГ¦ГЁГІ\n");
+	else printf("ГЌГҐ ГЇГ°ГЁГ­Г Г¤Г«ГҐГ¦ГЁГІ\n\n");
 }
 int laba7()
 {
@@ -56,7 +56,7 @@ int laba7()
 
 	int a;
 
-	printf("Введите число 1-12\n");
+	printf("Г‚ГўГҐГ¤ГЁГІГҐ Г·ГЁГ±Г«Г® 1-12\n");
 
 	scanf("%d", &a);
 
@@ -87,6 +87,37 @@ int laba7()
 	case 12:
 		printf("XII\n"); break;
 	default:
-		printf("Неверное число\n\n"); break;
+		printf("ГЌГҐГўГҐГ°Г­Г®ГҐ Г·ГЁГ±Г«Г®\n\n"); break;
+	}
+}
+
+
+
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <locale.h>
+
+
+int func(x, y)
+{
+	if (x >= 1 && x <= 7 && y <= 7 && y >= 1 && y <= x + 3 && y <= (-x) + 11 && y >= x - 3 && y >= -x + 5) return 1;
+	else return 0;
+}
+int main()
+{
+	setlocale(LC_ALL, "RUS");
+
+	int x, y, X, Y;
+
+	scanf("%d", &X);
+	scanf("%d", &Y);
+
+	for (x = X; x >= -X; x--)
+	{
+		for (y = Y; y >= -Y; y--)
+			func(x, y);
+		printf("\n");
+		if (func(x, y)) printf("+");
+		else printf(" ");
 	}
 }
