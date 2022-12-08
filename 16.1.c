@@ -47,3 +47,82 @@ int calc(double *ptr_array, double* ptr_array2, int size)  /*Округлени�
 		else *(ptr_array+i) = (int)*(ptr_array+i);
 	}
 	return 0;/}
+
+
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <locale.h>
+#include <stdlib.h>
+
+int zap(int* a, int size);
+int print(int* a, int size);
+
+int main()
+{
+	setlocale(LC_ALL, "RUS");
+	int* a;
+	int size;
+
+	printf("Введите размер массива\n");
+	scanf("%d", &size);
+
+	a = (int*)malloc(size * sizeof(int));
+
+	zap(a, size);  /*Заполнение случайными значениями*/
+	print(a, size);  /*Вывод*/
+	printf("\n");
+
+	sort_buble(a, size);
+	print(a, size);
+
+	free(a);
+}
+
+int zap(int* a, int size)
+{
+	for (int i = 0; i < size; i++)
+	{
+		*(a + i) = 10 + rand() % 90;
+	}
+	return 0;
+}
+
+int print(int* a, int size)
+{
+	for (int i = 0; i < size; i++)
+		printf("a[%d]=%d\n", i, *(a + i));
+}
+
+int sort_buble(int* a, int size)
+{
+	int j;
+
+	for (int i = 0; i < size; i++)
+	{
+		if (i == size - 1)
+		{
+			if (*(a + i) <= *(a + i + 1))
+			{
+				j = *(a + i);
+				*(a + i) = *(a + i + 1);
+				*(a + i + 1) = j;
+				break;
+			}
+			else break;
+		}
+
+
+		if (*(a + i) <= *(a + i + 1)) 
+		{ 
+			j = *(a + i); 
+			*(a + i) = *(a + i + 1);
+			*(a + i + 1) = j;
+		}
+		else
+		{
+			j = *(a + i+1);
+			*(a + i + 1) = *(a + i);
+			*(a + i)=j;
+		}
+	}
+}
