@@ -72,7 +72,8 @@ int main()
 	print(a, size);  /*Вывод*/
 	printf("\n");
 
-	sort_buble(a, size);
+	/*sort_buble(a, size);*/
+	sort_insert(a, size);
 	print(a, size);
 
 	free(a);
@@ -82,7 +83,7 @@ int zap(int* a, int size)
 {
 	for (int i = 0; i < size; i++)
 	{
-		*(a + i) = 10 + rand() % 90;
+		*(a + i) =  1+rand() % 10;
 	}
 	return 0;
 }
@@ -95,34 +96,38 @@ int print(int* a, int size)
 
 int sort_buble(int* a, int size)
 {
-	int j;
-
-	for (int i = 0; i < size; i++)
+	int g;
+	for (int o = 0; o < size; o++)
 	{
-		if (i == size - 1)
+		for (int i = 0; i < size; i++)
 		{
-			if (*(a + i) <= *(a + i + 1))
+			if (*(a + i) > *(a + i + 1)) continue;
+			else
 			{
-				j = *(a + i);
-				*(a + i) = *(a + i + 1);
-				*(a + i + 1) = j;
-				break;
+				g = *(a + i + 1);
+				*(a + i + 1) = *(a + i);
+				*(a + i) = g;
 			}
-			else break;
-		}
-
-
-		if (*(a + i) <= *(a + i + 1)) 
-		{ 
-			j = *(a + i); 
-			*(a + i) = *(a + i + 1);
-			*(a + i + 1) = j;
-		}
-		else
-		{
-			j = *(a + i+1);
-			*(a + i + 1) = *(a + i);
-			*(a + i)=j;
 		}
 	}
 }
+
+int sort_insert(int* a, int size)
+{
+	int j;
+	for (int i = 1; i < size-1; i++)
+	{
+		int temp;
+		temp = *(a + i);
+		j = i;
+		if (*(a - 1) > temp && j > 0)
+		{
+			*(a + j) = *(a + j - 1);
+			j = j - 1;
+		}
+		else {
+			*(a + j) = temp;
+		}
+	}
+}
+
