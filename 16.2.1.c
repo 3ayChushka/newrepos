@@ -11,15 +11,15 @@ int main()
 
 	double* ptr_array, dop;
 	int size, k, n;
-	
+
 	printf("Введите размер массива\n");
 	scanf("%d", &size);
 	ptr_array = (double*)malloc(size * sizeof(double));  /*Выделение памяти под массив*/
-	
+
 	for (int i = 0; i < size; i++)  /*Заполнение массива рандомными числами*/
 	{
 		dop = -99 + rand() % 198;  /*Добавление случайной дробной части*/
-		*(ptr_array + i) = dop*0.01;
+		*(ptr_array + i) = dop * 0.01;
 	}
 
 
@@ -40,11 +40,17 @@ int main()
 
 int del(double* ptr_array, int size, int k)  /*Удаляет каждый к-ый элемент массива и возвращает размер изменённого массива*/
 {
-	int n = size - (int)size / k;
+	int n = size - (int)size / k, q=0;
 
-	for (int i = 0; i < size - size / k; i++)
+	for (int i = 0; i < size; i++)
 	{
-		*(ptr_array + i) = *(ptr_array + i + 1);
+		if (i == 0)continue;
+		if (i % k == 0)
+			{
+				for(int o=i-q; o< size;o++)
+				*(ptr_array + o) = *(ptr_array + o + 1);
+				q++;
+			}
 	}
 	return n;
 }
