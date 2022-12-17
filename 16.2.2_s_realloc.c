@@ -23,12 +23,15 @@ int main()
 		*(ptr_array + i) = dop * 0.01;
 	}
 
+	for (int i = 0; i < size; i++)
+		*(ptr_array2 + i) = *(ptr_array + i);
+
 	for (int i = 0; i < size; i++)  /*Вывод неизменённого массива*/
 		printf("mas[%d]=%.2f\n", i, *(ptr_array + i));
 
 
-	for (int i = 0; i < 100; i++)
-	{
+	/*for (int i = 0; i < 100; i++)
+	{*/
 	printf("Введите номер элемента, после которого будет выводиться -999\n");
 	scanf("%d", &k);
 
@@ -36,19 +39,40 @@ int main()
 
 	for (int i = 0; i < new_chislo; i++)  /*Вывод изменённого массива*/
 		printf("mas[%d]=%.2f\n", i, *(ptr_array2 + i));
-
-	}
+	//}
 }
+
+//int dobavleniye(double* ptr_array, int size, int k, double* ptr_array2)   /*Вписывает после каждого к-ого элемента -999*/
+//{
+//	int h=0, dop=0;
+//
+//	for (int i = 0; i < size; i++)
+//	{
+//		dop++;
+//		if (dop % (k + 1) == 0)
+//		{
+//			h++;
+//			ptr_array2 = (double*)realloc(ptr_array2, (size + h) * sizeof(double));
+//
+//			for (int o = size + h; o > i; o--)
+//			{
+//				*(ptr_array2 + o) = *(ptr_array2 + o - 1);
+//			}
+//		}
+//	}
+//
+//	//for(int i=0;i<size;i++)
+//}
 
 int dobavleniye(double* ptr_array, int size, int k, double* ptr_array2)   /*Вписывает после каждого к-ого элемента -999*/
 {
-	int o = 0, h = 0, pr=0;
+	int o = 0, h = 0, pr = 0;
 
 	for (int i = 1; i < size; i++)  /*Подсчёт числа для добавления новой памяти*/
 	{
 		if (i % k == 0)
 			h++;
-		if (h % k==0) pr++;
+		if (h % k == 0) pr++;
 	}
 
 	ptr_array2 = (double*)realloc(ptr_array2, (size + h) * sizeof(double));
@@ -59,18 +83,20 @@ int dobavleniye(double* ptr_array, int size, int k, double* ptr_array2)   /*Вп
 		*(ptr_array2 + i) = *(ptr_array + i);
 	}
 
-
-	for (int i = 0; i < size + h; i++)   
+	int dop = 1;
+	for (int i = 0; i <= size + h; i++)
 	{
-		if (i % (k+1) == 0)
+		dop++;
+		if (dop % (k + 1) == 0)
 		{
-			for (int o = size+h; o >i; o--)
+			for (int o = size + h+1; o > i; o--)
 			{
 				*(ptr_array2 + o) = *(ptr_array2 + o - 1);    /*Перезапись с конца*/
 			}
 			*(ptr_array2 + i + 1) = -999;
 		}
 	}
-	printf("%d - размер массива\n\n", size + h);
+	
+	if (size % k == 0)return size + h + 1;
 	return size + h;
 }
