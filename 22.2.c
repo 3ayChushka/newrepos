@@ -13,6 +13,7 @@ void viv_rez(Tfun, double, double, double);
 double calc_to(Tfun);
 void tab_func();
 void zapis(Tfun);
+double max(Tfun);
 
 int main()
 {
@@ -24,7 +25,7 @@ int main()
 
 	while (v != 0)
 	{
-		printf("Выберите действие:\n1-Вычислить значение в точке\n2-Табулирование функции\n3-Записать в файл результаты\n0-Выход\n");
+		printf("Выберите действие:\n1-Вычислить значение в точке\n2-Табулирование функции\n3-Записать в файл результаты\n4-Поиск максимального значения\n0-Выход\n");
 		scanf("%d", &v);
 
 		switch (v)
@@ -45,14 +46,25 @@ int main()
 			tab_func();
 			break;
 		}
-		case 3:
+		case 3:  /*Запись в файл*/
 		{
 			printf("Выберите функцию\n1-Y(x)\n2-V(x)\n3-S(x)\n");
 			scanf("%d", &v3);
 
-			if (v3 == 1) zapis( Y);
-				else if (v3 == 2) zapis(V);
-					else if (v3 == 3) zapis(S);
+			if (v3 == 1) zapis(Y);
+			else if (v3 == 2) zapis(V);
+			else if (v3 == 3) zapis(S);
+			break;
+		}
+		case 4:  /*Поиск максимального значения*/
+		{
+			printf("Выберите функцию\n1-Y(x)\n2-V(x)\n3-S(x)\n");
+			scanf("%d", &v3);
+
+			if (v3 == 1) printf("Максимальное значние на промежутке = %lf\n",max(Y));
+				else if (v3 == 2) printf("Максимальное значние на промежутке = %lf\n", max(V));
+					else if (v3 == 3)  printf("Максимальное значние на промежутке = %lf\n", max(S));
+
 			break;
 		}
 		}
@@ -138,4 +150,27 @@ void zapis(Tfun f)
 		fprintf(rez, "%lf, ", f(x));
 	}
 	fclose(rez);
+}
+
+double max(Tfun f)
+{
+	double a2, b2, h2;
+
+	printf("Введите начальное значение\n");
+	scanf("%lf", &a2); getchar();
+
+	printf("Введите конечное значение\n");
+	scanf("%lf", &b2); getchar();
+
+	printf("Введите шаг\n");
+	scanf("%lf", &h2); getchar();
+
+	double max = f(a2);
+	for (double i = a2 + 1; i <= b2; i += h2)
+	{
+		if (max <= f(i))max = f(i);
+	}
+
+	return max;
+
 }
