@@ -10,79 +10,70 @@ double S(double);
 double V(double);
 
 void viv_rez(Tfun, double, double, double);
-
 double calc_to(Tfun);
-
 void tab_func();
-
-void plot(double, double, Tfun);
+void zapis(Tfun);
 
 int main()
 {
 	setlocale(LC_ALL, "RUS");
 
 	double n, k;
-	int v = 10, v2=10, v3=10;
+	int v = 10, v2 = 10, v3 = 10;
 	double y;
 
 	while (v != 0)
 	{
-		printf("Выберите действие:\n1-Вычислить значение в точке\n2-Табулирование функции\n3-Нарисовать график функции\n0-Выход\n");
+		printf("Выберите действие:\n1-Вычислить значение в точке\n2-Табулирование функции\n3-Записать в файл результаты\n0-Выход\n");
 		scanf("%d", &v);
 
 		switch (v)
 		{
 		case 1:  /*Вычисление в точке*/
-			{
-				printf("Выберите функцию:\n1-Y(x)\n2-V(x)\n3-S(x)\n");
-				scanf("%d", &v2);
-				
-				if (v2 == 1) y=calc_to(Y);
-					else if (v2 == 2) y=calc_to(V);
-						else if (v2 == 3) y=calc_to(S);
-				printf("y=%lf\n", y);
-				break;
-			}
+		{
+			printf("Выберите функцию:\n1-Y(x)\n2-V(x)\n3-S(x)\n");
+			scanf("%d", &v2);
+
+			if (v2 == 1) y = calc_to(Y);
+			else if (v2 == 2) y = calc_to(V);
+			else if (v2 == 3) y = calc_to(S);
+			printf("y=%lf\n", y);
+			break;
+		}
 		case 2:  /*Табуляция*/
-			{
-				tab_func();
-				break;
-			}
+		{
+			tab_func();
+			break;
+		}
 		case 3:
-			{
+		{
 			printf("Выберите функцию\n1-Y(x)\n2-V(x)\n3-S(x)\n");
 			scanf("%d", &v3);
 
-			printf("Введите начальное значение\n");
-			scanf("%lf", &n);
-
-			printf("Введите конечное значение\n");
-			scanf("%lf", &k);
-
-			if (v3 == 1) plot(n, k, Y);
-				else if (v3 == 2) plot(n, k, V);
-					else if (v3 == 3) plot(n, k, S);
+			if (v3 == 1) zapis( Y);
+				else if (v3 == 2) zapis(V);
+					else if (v3 == 3) zapis(S);
 			break;
-			}
+		}
 		}
 	}
 }
 
-double Y(double x) 
+double Y(double x)
 {
-    if(x>0)return log(fabs(sqrt(pow(x, 3))));
+	if (x > 0)return log(fabs(sqrt(pow(x, 3))));
 	return -1;
 }
-double V(double x) 
+double V(double x)
 {
 
-    if (x > 1) return sqrt(tanh((x*x-1.f)/57));
-        else if (x >= 0 && x <= 1) return -2 * x;
-            else if (x < 0) return exp(cos(x));
+	if (x > 1) return sqrt(tanh((x * x - 1.f) / 57));
+	else if (x >= 0 && x <= 1) return -2 * x;
+	else if (x < 0) return exp(cos(x));
 	return -1;
 }
 double S(double r) {
-    return (r - 1) / (r + 1) + 1. / 3 * pow((r - 1) / (r + 1), 3) + 1. / 5 * pow((r - 1) / (r + 1), 5) + 1. / 7 * pow((r - 1) / (r + 1), 7);
+	return (r - 1) / (r + 1) + 1. / 3 * pow((r - 1) / (r + 1), 3) + 1. / 5 * pow((r - 1) / (r + 1), 5) + 1. / 7 * pow((r - 1) / (r + 1), 7);
 }
 
 
@@ -126,44 +117,25 @@ void tab_func()
 	viv_rez(Y, a, b, h);
 }
 
-void plot(double x0, double x1, Tfun f)
+void zapis(Tfun f)
 {
-	char screen[60][40];
-	double x, y[60], ymin = 0, ymax = 0, hx, hy;
-	int i, j, xz, yz;
+	FILE* rez;
+	double a1, b1, h1;
 
-	hx = (x1 - x0) / (60 - 1);
+	printf("Введите начальное значение\n");
+	scanf("%lf", &a1); getchar();
 
-	for (i = 0, x = x0; i < 60; ++i, x += hx) 
+	printf("Введите конечное значение\n");
+	scanf("%lf", &b1); getchar();
+
+	printf("Введите шаг\n");
+	scanf("%lf", &h1); getchar();
+
+	rez = fopen("dat.txt", "w");
+
+	for (double x = a1; x <= b1; x++)
 	{
-		y[i] = f(x);
-		if (y[i] < ymin) ymin = y[i];
-		if (y[i] > ymax) ymax = y[i];
-
+		fprintf(rez, "%lf, ", f(x));
 	}
-
-	hy = (ymax - ymin) / (40 - 1);
-	yz = (int)floor(ymax / hy + 0.5);
-	xz = (int)floor((0. - x0) / hx + 0.5);
-
-	for (j = 0; j < 40; ++j)
-		for (i = 0; i < 60; ++i) 
-		{
-			if (j == yz && i == xz) screen[i][j] = '+';
-				else if (j == yz) screen[i][j] = '-';
-					else if (i == xz) screen[i][j] = '|';
-						else screen[i][j] = ' ';
-		}
-
-	for (i = 0; i < 60; ++i) 
-	{
-		j = (int)floor((ymax - y[i]) / hy + 0.5);
-		screen[i][j] = '*';
-	}
-
-	for (j = 0; j < 40; ++j) {
-		for (i = 0; i < 60; ++i)  putchar(screen[i][j]);
-		putchar('\n');
-	}
-
+	fclose(rez);
 }
